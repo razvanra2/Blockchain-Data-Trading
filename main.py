@@ -10,5 +10,5 @@ data_chain = data_seller.prepare_transaction_data(b'IlBlb3BsZSLigJRHZXJhbHQgdHVy
 
 monitor = Data_transaction_monitor(100, data_chain, buyer, data_seller)
 
-monitor.sale(100, 1, 300)
-
+for i in range(data_chain.get_chain_size()):
+    monitor.sale(100, i, 300)

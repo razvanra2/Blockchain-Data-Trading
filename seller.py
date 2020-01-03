@@ -48,7 +48,7 @@ def decrypt_aes_128_ecb(ctxt, key):
 def block_decrypt_aes_128_ecb(ctxt, i, key):
     cipher = Cipher(algorithms.AES(key), modes.ECB(), backend=backend)
     decryptor = cipher.decryptor()
-    decrypted_data = decryptor.update(ctxt) + decryptor.finalize()
+    decrypted_data = decryptor.update(cipher_text) + decryptor.finalize()
     message = pkcs7_strip(decrypted_data)
     return message[i * 16 : (i + 1) * 16]
 
@@ -60,7 +60,7 @@ class Seller:
         self.key = 'Mambo NumberFive'.encode()
         self.prefix = 'PREF'.encode()
         self.target = base64.b64decode(
-            "Q2xhcCB5b3VyIGhhbmQgb25jZSBhbmQgY2xhcCB5b3VyIGhhbmRzIHR3aWNlCkFuZCBpZiBpdCBsb29rcyBsaWtlIHRoaXMgdGhlbiB5b3UgZG9pbmcgaXQgcmlnaHQ="
+            "SSBtYW5hZ2UgYmVjYXVzZSBJIGhhdmUgdG8uIEJlY2F1c2UgSSd2ZSBubyBvdGhlciB3YXkgb3V0LiBCZWNhdXNlIEkndmUgb3ZlcmNvbWUgdGhlIHZhbml0eSBhbmQgcHJpZGUgb2YgYmVpbmcgZGlmZmVyZW50LiBJJ3ZlIHVuZGVyc3Rvb2QgdGhhdCB0aGV5IGFyZSBhIHBpdGlmdWwgZGVmZW5zZSBhZ2FpbnN0IGJlaW5nIGRpZmZlcmVudC4gQmVjYXVzZSBJJ3ZlIHVuZGVyc3Rvb2QgdGhhdCB0aGUgc3VuIHNoaW5lcyBkaWZmZXJlbnRseSB3aGVuIHNvbWV0aGluZyBjaGFuZ2VzLCBidXQgSSdtIG5vdCB0aGUgYXhpcyBvZiB0aG9zZSBjaGFuZ2VzLiBUaGUgc3VuIHNoaW5lcyBkaWZmZXJlbnRseSwgYnV0IGl0IHdpbGwgY29udGludWUgdG8gc2hpbmUsIGFuZCBqdW1waW5nIGF0IGl0IHdpdGggYSBob2UgaXNuJ3QgZ29pbmcgdG8gZG8gYW55dGhpbmcuIFdlJ3ZlIGdvdCB0byBhY2NlcHQgZmFjdHMsIGVsZi4gVGhhdCdzIHdoYXQgd2UndmUgZ290IHRvIGxlYXJu"
         )
         self.p_message = ''
         self.funds = 0
@@ -70,7 +70,7 @@ class Seller:
 
         self.p_message = message
         cipher_text = encrypt_aes_128_ecb(
-            self.prefix + message + self.target,
+            message,
             self.key)
         return cipher_text 
 
@@ -89,22 +89,5 @@ class Seller:
         return plain_substring in (self.prefix + self.p_message + self.target)
 
     def wire_funds(self, deposit, block_funds):
+        print(f'[seller] funds wired to seller: {deposit + block_funds}')
         self.funds += (deposit + block_funds)
-
-
-'''
-seller = Seller()
-encripted = seller.encrypt(b"test string")
-decripted = decrypt_aes_128_ecb(encripted, 'Mambo NumberFive'.encode())
-print(len(encripted))
-print(encripted)
-c = seller.prepare_transaction_data(b"test string", MinimalChain())
-
-print(c.blocks[1].timestamp)
-print(c.blocks[1].data)
-print(c.blocks[1].hash)
-
-
-print(c.get_chain_size())
-print(c.verify())
-'''
