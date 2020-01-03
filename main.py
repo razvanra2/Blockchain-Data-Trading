@@ -1,0 +1,14 @@
+from seller import *
+from buyer import *
+from transaction import *
+from blockchain import *
+
+data_seller = Seller()
+buyer = Buyer(data_seller.key)
+
+data_chain = data_seller.prepare_transaction_data(b'IlBlb3BsZSLigJRHZXJhbHQgdHVybmVkIGhpcyBoZWFk4oCUImxpa2UgdG8gaW52ZW50IG1vbnN0ZXJzIGFuZCBtb25zdHJvc2l0aWVzLiBUaGVuIHRoZXkgc2VlbSBsZXNzIG1vbnN0cm91cyB0aGVtc2VsdmVzLiBXaGVuIHRoZXkgZ2V0IGJsaW5kLWRydW5rLCBjaGVhdCwgc3RlYWwsIGJlYXQgdGhlaXIgd2l2ZXMsIHN0YXJ2ZSBhbiBvbGQgd29tYW4sIHdoZW4gdGhleSBraWxsIGEgdHJhcHBlZCBmb3ggd2l0aCBhbiBheGUgb3IgcmlkZGxlIHRoZSBsYXN0IGV4aXN0aW5nIHVuaWNvcm4gd2l0aCBhcnJvd3MsIHRoZXkgbGlrZSB0byB0aGluayB0aGF0IHRoZSBCYW5lIGVudGVyaW5nIGNvdHRhZ2VzIGF0IGRheWJyZWFrIGlzIG1vcmUgbW9uc3Ryb3VzIHRoYW4gdGhleSBhcmUuIFRoZXkgZmVlbCBiZXR0ZXIgdGhlbi4gVGhleSBmaW5kIGl0IGVhc2llciB0byBsaXZlLiI=', MinimalChain())
+
+monitor = Data_transaction_monitor(100, data_chain, buyer, data_seller)
+
+monitor.sale(100, 1, 300)
+
