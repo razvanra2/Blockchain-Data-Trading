@@ -47,6 +47,7 @@ class Seller:
            "Q2xhcCB5b3VyIGhhbmQgb25jZSBhbmQgY2xhcCB5b3VyIGhhbmRzIHR3aWNlCkFuZCBpZiBpdCBsb29rcyBsaWtlIHRoaXMgdGhlbiB5b3UgZG9pbmcgaXQgcmlnaHQ="
         )
         self.p_message = ''
+        self.funds = 0
 
     def encrypt(self, message):
         self.p_message = message
@@ -67,6 +68,9 @@ class Seller:
     
     def validate(self, plain_substring):
         return plain_substring in (self.prefix + self.p_message + self.target)
+    
+    def wire_funds(self, deposit, block_funds):
+        self.funds += (deposit + block_funds)
 
 '''
 seller = Seller()

@@ -26,6 +26,7 @@ class data_transaction_monitor:
                 self.seller.wire_funds(buyer_deposit, money_i)
             else:
                 self.buyer.return_funds(buyer_deposit, money_i)
-        
+
+    # ARBITRATE (simplified)   
     def arbitrate(self, plain_block):
         return self.chain.verify() and self.seller.validate(plain_block)
