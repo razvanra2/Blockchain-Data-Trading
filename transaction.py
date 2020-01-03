@@ -27,7 +27,6 @@ class Data_transaction_monitor:
         if (decrypt_res is not False):
             self.buyer.extract_funds(buyer_deposit, money_i)
             self.seller.wire_funds(buyer_deposit, money_i)
-            self.buyer.ensured_transfer(plain_block)
         else:
             arbitrated_plain = self.arbitrate(plain_block, i)
             if (arbitrated_plain is not None):
